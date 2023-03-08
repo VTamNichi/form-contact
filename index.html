@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Infomation</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			height: 100%;
+			font-family: "Manrope", sans-serif;
+			margin: 0;
+			background-color: #fff;
+			font-size: 14px;
+		}
+
+		select {
+			border: none;
+			text-indent: 1px;
+			text-overflow: '';
+			appearance: none;
+		}
+
+		select:focus {
+			border: none;
+			outline: none;
+		}
+
+		input {
+			outline: none;
+			border: none;
+		}
+
+		input[type="date"]::-webkit-inner-spin-button,
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			display: none;
+			-webkit-appearance: none;
+		}
+
+		.container {
+			padding: 16px;
+		}
+
+		.form-input {
+			margin: 0 auto;
+			padding: 5px;
+			width: max-content;
+		}
+
+		.input-field {
+			font-size: 15px;
+			line-height: 1.5;
+			color: #4F4F4F;
+			background: #F3F4F5;
+			height: 50px;
+			border-radius: 90px;
+			padding: 12px 22px;
+			width: 100%;
+		}
+
+		::placeholder {
+			color: #BDBDBD;
+			opacity: 1;
+		}
+
+		label {
+			display: block;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 22px;
+			color: #333333;
+			margin-bottom: 8px;
+		}
+
+		.field {
+			margin-bottom: 24px;
+		}
+
+		.field-icon {
+			position: relative;
+		}
+
+		img {
+			position: absolute;
+			right: 22px;
+			top: 16px;
+		}
+
+		.img-calender {
+			position: absolute;
+			right: 22px;
+			top: 18px;
+		}
+
+		.icon {
+			position: absolute;
+			right: 22px;
+			top: 22px;
+		}
+
+		.dob {
+			margin-right: 24px;
+		}
+
+		.dob,
+		.gender {
+			display: inline-block;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<form class="form-input">
+			<div class="field">
+				<label>Họ tên</label>
+				<input class="input-field" type="text" name="username" placeholder="Họ tên">
+			</div>
+			<div class="field">
+				<div class="dob-gender">
+					<div class="dob">
+						<label>Ngày sinh</label>
+						<div class="field-icon" style="width: 220px;">
+							<input class="input-field" type="date" id="birthdate" name="birthdate"
+								placeholder="Ngày sinh" maxlength="10" onfocus="this.showPicker()">
+							<img class="img-calender" src="images/ic_calender.svg" alt="Icon Calender"/>
+						</div>
+					</div>
+					<div class="gender">
+						<label>Giới tính</label>
+						<div class="field-icon" style="width: 220px;">
+							<select class="input-field" style="z-index: 9999;">
+								<option value="" disabled selected>Giới tính</option>
+								<option value="Male">Nam</option>
+								<option value="Female">Nữ</option>
+								<option value="Other">Khác</option>
+							</select>
+							<img src="images/ic_gender.svg" alt="Icon Gender" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Số điện thoại</label>
+				<input class="input-field" type="tel" name="phone" placeholder="Số điện thoại">
+			</div>
+			<div class="field">
+				<label>Email</label>
+				<input class="input-field" type="email" name="email" placeholder="Email">
+			</div>
+			<div class="field">
+				<label>CMND/CCCD</label>
+				<input class="input-field" type="text" name="idCard" placeholder="CMND/CCCD">
+			</div>
+			<div class="field">
+				<label>BHYT</label>
+				<input class="input-field" type="text" name="bhyt" placeholder="BHYT">
+			</div>
+			<div class="field">
+				<label>Người giám hộ</label>
+				<input class="input-field" type="text" name="guardian" placeholder="Người giám hộ">
+			</div>
+			<div class="field">
+				<label>Tỉnh thành</label>
+				<div class="field-icon">
+					<select class="input-field" id="province" onchange="onSelect(1)">
+						<option value="" disabled selected>Tỉnh thành</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+				<datalist id="cityname">
+					<option value="Boston">
+					<option value="Cambridge">
+				</datalist>
+			</div>
+			<div class="field">
+				<label>Quận/Huyện</label>
+				<div class="field-icon">
+					<select class="input-field" id="district" onchange="onSelect(2)">
+						<option value="" disabled selected>Quận/Huyện</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field">
+				<label>Xã/Phường</label>
+				<div class="field-icon">
+					<select class="input-field" id="ward">
+						<option value="" disabled selected>Xã/Phường</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field">
+				<label>Đường/Số nhà</label>
+				<input class="input-field" type="text" name="street" placeholder="Đường/Số nhà">
+			</div>
+		</form>
+	</div>
+</body>
+
+<script>
+	const api_url = "https://patient-api-uat.miohealth.vn/";
+	const selectProvince = document.getElementById("province");
+	const selectDistrict = document.getElementById("district");
+	const selectWard = document.getElementById("ward");
+
+	function onSelect(index) {
+		if (index == 1) {
+			resetSelectBox(selectWard);
+			resetSelectBox(selectDistrict);
+			fetchAPI(api_url + "District/GetAllLookup?provinceId=" + selectProvince.value, selectDistrict);
+		} else {
+			resetSelectBox(selectWard);
+			fetchAPI(api_url + "Ward/GetAllLookup?districtId=" + selectDistrict.value, selectWard);
+		}
+	}
+
+	function resetSelectBox(select) {
+		select.value = select.options[0].value;
+		for (var i = 1; i < select.length; i++) {
+			select.remove(i);
+			i--;
+		}
+	}
+
+	async function fetchAPI(url, select) {
+		try {
+			const response = await fetch(url);
+			var datalist = await response.json();
+			var data = datalist["result"];
+			for (key in data) {
+				var option = document.createElement("option");
+				option.value = data[key].id;
+				option.text = data[key].name;
+				select.add(option);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
+
+</script>
+
+</html>
