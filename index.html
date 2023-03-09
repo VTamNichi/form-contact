@@ -51,7 +51,12 @@
 		.form-input {
 			margin: 0 auto;
 			padding: 5px;
-			width: max-content;
+		}
+
+		@media(min-width: 500px) {
+			.form-input {
+				width: 480px;
+			}
 		}
 
 		.input-field {
@@ -111,13 +116,14 @@
 			top: 22px;
 		}
 
-		.dob {
-			margin-right: 24px;
+		.dob-gender {
+			display: flex;
+			justify-content: space-between;
 		}
 
 		.dob,
 		.gender {
-			display: inline-block;
+			width: 49%;
 		}
 
 		.error {
@@ -155,7 +161,7 @@
 				<div class="dob-gender">
 					<div class="dob">
 						<label>Ngày sinh</label>
-						<div class="field-icon" style="width: 220px;">
+						<div class="field-icon">
 							<input class="input-field" type="date" id="birthdate" name="birthdate"
 								placeholder="Ngày sinh" min="1900-01-01" maxlength="10" onfocus="this.showPicker()"
 								required>
@@ -164,7 +170,7 @@
 					</div>
 					<div class="gender">
 						<label>Giới tính</label>
-						<div class="field-icon" style="width: 220px;">
+						<div class="field-icon">
 							<select class="input-field" id="gender" style="z-index: 9999;" required>
 								<option value="" disabled selected>Giới tính</option>
 								<option value="Male">Nam</option>
