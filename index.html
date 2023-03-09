@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Infomation</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			height: 100%;
+			font-family: "Manrope", sans-serif;
+			margin: 0;
+			background-color: #fff;
+			font-size: 14px;
+		}
+
+		select {
+			border: none;
+			text-indent: 1px;
+			text-overflow: '';
+			appearance: none;
+		}
+
+		select:focus {
+			border: none;
+			outline: none;
+		}
+
+		input {
+			outline: none;
+			border: none;
+		}
+
+		input[type="date"]::-webkit-inner-spin-button,
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			display: none;
+			-webkit-appearance: none;
+		}
+
+		.container {
+			padding: 16px;
+		}
+
+		.form-input {
+			margin: 0 auto;
+			padding: 5px;
+			width: max-content;
+		}
+
+		.input-field {
+			font-size: 15px;
+			line-height: 1.5;
+			color: #4F4F4F;
+			background: #F3F4F5;
+			height: 50px;
+			border-radius: 90px;
+			padding: 12px 22px;
+			width: 100%;
+		}
+
+		.submit-field {
+			font-size: 15px;
+			line-height: 1.5;
+			color: #fff;
+			background: #EB5757;
+			height: 50px;
+			border-radius: 90px;
+			padding: 12px 22px;
+			width: 100%;
+		}
+
+		::placeholder {
+			color: #BDBDBD;
+			opacity: 1;
+		}
+
+		label {
+			display: block;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 22px;
+			color: #333333;
+			margin-bottom: 8px;
+		}
+
+		.field {
+			margin-bottom: 24px;
+		}
+
+		.field-icon {
+			position: relative;
+		}
+
+		.img-calender-gender {
+			position: absolute;
+			right: 22px;
+			top: 18px;
+		}
+
+		.icon {
+			position: absolute;
+			right: 22px;
+			top: 22px;
+		}
+
+		.dob {
+			margin-right: 24px;
+		}
+
+		.dob,
+		.gender {
+			display: inline-block;
+		}
+
+		.error {
+			padding-left: 22px;
+			color: #EB5757;
+			font-size: 14px;
+		}
+
+		.scan-qr {
+			display: flex;
+			width: 100%;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.fullname {
+			width: 100%;
+			margin-right: 12px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<form class="form-input" id="form-input">
+			<div class="field">
+				<label>Họ tên</label>
+				<div class="scan-qr">
+					<div class="fullname"><input class="input-field" type="text" id="fullname" name="fullname"
+							placeholder="Họ tên" required></div>
+					<div class="icon-scan"><img src="images/ic_scan_qr.svg" alt="Icon Scan QR" /></div>
+				</div>
+			</div>
+			<div class="field">
+				<div class="dob-gender">
+					<div class="dob">
+						<label>Ngày sinh</label>
+						<div class="field-icon" style="width: 220px;">
+							<input class="input-field" type="date" id="birthdate" name="birthdate"
+								placeholder="Ngày sinh" min="1900-01-01" maxlength="10" onfocus="this.showPicker()"
+								required>
+							<img class="img-calender-gender" src="images/ic_calender.svg" alt="Icon Calender" />
+						</div>
+					</div>
+					<div class="gender">
+						<label>Giới tính</label>
+						<div class="field-icon" style="width: 220px;">
+							<select class="input-field" id="gender" style="z-index: 9999;" required>
+								<option value="" disabled selected>Giới tính</option>
+								<option value="Male">Nam</option>
+								<option value="Female">Nữ</option>
+								<option value="Other">Khác</option>
+							</select>
+							<img class="img-calender-gender" src="images/ic_gender.svg" alt="Icon Gender" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Số điện thoại</label>
+				<input class="input-field" type="tel" id="phone" name="phone" placeholder="Số điện thoại"
+					oninput="onInputPhone(this.value)">
+				<label class="error" id="error-phone"></label>
+			</div>
+			<div class="field">
+				<label>Email</label>
+				<input class="input-field" type="email" id="email" name="email" placeholder="Email">
+			</div>
+			<div class="field">
+				<label>CMND/CCCD</label>
+				<input class="input-field" type="text" id="idCard" name="idCard" placeholder="CMND/CCCD"
+					oninput="onInputIdCard(this.value)">
+				<label class="error" id="error-idcard"></label>
+			</div>
+			<div class="field">
+				<label>BHYT</label>
+				<input class="input-field" type="text" id="bhyt" name="bhyt" placeholder="BHYT">
+			</div>
+			<div class="field">
+				<label>Người giám hộ</label>
+				<input class="input-field" type="text" id="guardian" name="guardian" placeholder="Người giám hộ">
+			</div>
+			<div class="field">
+				<label>Tỉnh thành</label>
+				<div class="field-icon">
+					<select class="input-field" id="province" onchange="onSelect(1)">
+						<option value="" disabled selected>Tỉnh thành</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+				<datalist id="cityname">
+					<option value="Boston">
+					<option value="Cambridge">
+				</datalist>
+			</div>
+			<div class="field">
+				<label>Quận/Huyện</label>
+				<div class="field-icon">
+					<select class="input-field" id="district" onchange="onSelect(2)">
+						<option value="" disabled selected>Quận/Huyện</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field">
+				<label>Xã/Phường</label>
+				<div class="field-icon">
+					<select class="input-field" id="ward">
+						<option value="" disabled selected>Xã/Phường</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field">
+				<label>Đường/Số nhà</label>
+				<input class="input-field" type="text" name="street" placeholder="Đường/Số nhà">
+			</div>
+			<div class="field">
+				<input class="submit-field" type="submit" name="complete" value="Hoàn thành">
+			</div>
+		</form>
+	</div>
+</body>
+
+<script>
+	const api_url = "https://patient-api-uat.miohealth.vn/";
+	const selectProvince = document.getElementById("province");
+	const selectDistrict = document.getElementById("district");
+	const selectWard = document.getElementById("ward");
+	const phoneRegex = new RegExp("^(?:[+0]9)?[0-9]{9,15}$");
+	const idCardRegex9 = new RegExp("^(?:[+0]9)?[0-9]{9}$");
+	const idCardRegex11 = new RegExp("^(?:[+0]9)?[0-9]{11}$");
+	const errorphone = document.getElementById("error-phone");
+	const erroridcard = document.getElementById("error-idcard");
+
+	var form = document.getElementById("form-input");
+	function handleForm(event) {
+		if (errorphone.innerHTML != "" || erroridcard.innerHTML != "") {
+			event.preventDefault();
+		}
+	}
+	form.addEventListener('submit', handleForm);
+
+	function onSelect(index) {
+		if (index == 1) {
+			resetSelectBox(selectWard);
+			resetSelectBox(selectDistrict);
+			fetchAPI(api_url + "District/GetAllLookup?provinceId=" + selectProvince.value, selectDistrict);
+		} else {
+			resetSelectBox(selectWard);
+			fetchAPI(api_url + "Ward/GetAllLookup?districtId=" + selectDistrict.value, selectWard);
+		}
+	}
+
+	function resetSelectBox(select) {
+		select.value = select.options[0].value;
+		for (var i = 1; i < select.length; i++) {
+			select.remove(i);
+			i--;
+		}
+	}
+
+	function onInputPhone(value) {
+		try {
+			if (value.match(phoneRegex) || value == "") {
+				errorphone.innerHTML = "";
+			} else {
+				errorphone.innerHTML = "Số điện thoại không hợp lệ";
+			}
+		} catch (e) {
+			errorphone.innerHTML = "Số điện thoại không hợp lệ";
+		}
+	}
+
+	function onInputIdCard(value) {
+		try {
+			if (value.match(idCardRegex9) || value.match(idCardRegex11) || value == "") {
+				erroridcard.innerHTML = "";
+			} else {
+				erroridcard.innerHTML = "CMND/CCCD không hợp lệ";
+			}
+		} catch (e) {
+			erroridcard.innerHTML = "CMND/CCCD không hợp lệ";
+		}
+	}
+
+	function setMaxDate() {
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+
+		today = yyyy + '-' + mm + '-' + dd;
+		document.getElementById("birthdate").setAttribute("max", today);
+	}
+
+	async function fetchAPI(url, select) {
+		try {
+			const response = await fetch(url);
+			var datalist = await response.json();
+			var data = datalist["result"];
+			for (key in data) {
+				var option = document.createElement("option");
+				option.value = data[key].id;
+				option.text = data[key].name;
+				select.add(option);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	setMaxDate();
+	fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
+
+</script>
+
+</html>
