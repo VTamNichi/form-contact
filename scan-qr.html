@@ -32,7 +32,6 @@
 
 <script>
     function onScanSuccess(qrCodeMessage) {
-        
     }
     function onScanError(errorMessage) {
     }
@@ -41,17 +40,17 @@
         qrbox: 250
     });
 
-    html5QrCodeScanner.render(onScanSuccess, onScanError);
-
-    // Html5Qrcode.getCameras().then(devices => {
-    //     if (devices && devices.length) {
-    //         var cameraId = devices[0].id;
-    //         console.log(cameraId);
-    //         // .. use this to start scanning.
-    //     }
-    // }).catch(err => {
-    //     console.log(err);
-    // });
+    Html5Qrcode.getCameras().then(devices => {
+        if (devices && devices.length) {
+            var cameraId = devices[0].id;
+            console.log(cameraId);
+            if (cameraId != "") {
+                html5QrCodeScanner.render(onScanSuccess, onScanError);
+            }
+        }
+    }).catch(err => {
+        console.log(err);
+    });
 
 
 </script>
