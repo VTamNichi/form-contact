@@ -43,33 +43,17 @@
 <script src="js/html5-qrcode.min.js"></script>
 
 <script>
-    // When scan is successful fucntion will produce data
-    function onScanSuccess(qrCodeMessage) {
-        // document.getElementById("result").innerHTML =
-        //     '<span class="result">' + qrCodeMessage + "</span>";
-    }
+    
 
-    // When scan is unsuccessful fucntion will produce error message
-    function onScanError(errorMessage) {
-        // Handle Scan Error
-    }
-
-    // Setting up Qr Scanner properties
-    var html5QrCodeScanner = new Html5QrcodeScanner("reader", {
-        fps: 10,
-        qrbox: 250
+    Html5Qrcode.getCameras().then(devices => {
+        if (devices && devices.length) {
+            var cameraId = devices[0].id;
+            console.log(cameraId);
+            // .. use this to start scanning.
+        }
+    }).catch(err => {
+        console.log(err);
     });
-
-    html5QrCodeScanner.render(onScanSuccess, onScanError);
-
-    // Html5Qrcode.getCameras().then(devices => {
-    //     if (devices && devices.length) {
-    //         var cameraId = devices[0].id;
-    //         // .. use this to start scanning.
-    //     }
-    // }).catch(err => {
-    //     console.log(err);
-    // });
 
 
 </script>
