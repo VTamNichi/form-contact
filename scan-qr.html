@@ -65,7 +65,7 @@
         if (devices && devices.length) {
             var cameraId = devices[0].id;
             if (cameraId != "") {
-                console.log("aaaaaaaaa");
+                html5QrCodeScanner.render(onScanSuccess, onScanError);
             } else {
                 console.log("No camera is found");
             }
