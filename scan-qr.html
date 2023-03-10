@@ -17,41 +17,62 @@
             margin: 0;
         }
 
-        .reader {
+        .container {
             width: 100%;
             height: 100%;
+            position: relative;
+        }
+
+        .reader {
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
+
+        video {
+            position: absolute;
+            width: 100% !important;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 
 <body>
-    <div class="reader" id="reader"></div>
+    <div class="container">
+        <div class="reader" id="reader">
+            <div class="border-scan1"></div>
+            <div class="border-scan2"></div>
+        </div>
+    </div>
 </body>
 
 <script src="js/html5-qrcode.min.js"></script>
 
 <script>
     function onScanSuccess(qrCodeMessage) {
+        console.log("success");
     }
     function onScanError(errorMessage) {
+        console.log("error");
     }
     var html5QrCodeScanner = new Html5QrcodeScanner("reader", {
         fps: 10,
-        qrbox: 250
+        qrbox: 380
     });
 
     Html5Qrcode.getCameras().then(devices => {
         if (devices && devices.length) {
             var cameraId = devices[0].id;
-            console.log(cameraId);
             if (cameraId != "") {
-                html5QrCodeScanner.render(onScanSuccess, onScanError);
+                console.log("aaaaaaaaa");
+            } else {
+                console.log("No camera is found");
             }
         }
     }).catch(err => {
         console.log(err);
     });
-
 
 </script>
 
