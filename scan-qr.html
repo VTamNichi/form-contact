@@ -96,6 +96,7 @@
     const html5QrCode = new Html5Qrcode("reader");
     let cameraIndex = 0;
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        console.log("scanning");
         scanQRCode(decodedText);
     };
     const config = { fps: 30, qrbox: 300 };
@@ -120,6 +121,7 @@
     }).catch(err => {
         showNotifyMessage(err);
     });
+    html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
 
     function showNotifyMessage(message) {
         notify_message.innerHTML = message;
@@ -135,7 +137,7 @@
                 } else {
                     cameraIndex = 0;
                 }
-                await html5QrCode.stop();
+                // await html5QrCode.stop();
                 html5QrCode.start(listCamera[cameraIndex], config, qrCodeSuccessCallback);
                 showNotifyMessage("Switch to " + listCamera[cameraIndex].label);
             }
