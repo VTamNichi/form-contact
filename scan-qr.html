@@ -136,9 +136,9 @@
                 } else {
                     cameraIndex = 0;
                 }
-                html5QrCode.stop();
+                // html5QrCode.stop();
                 html5QrCode.start({ facingMode: { exact: "environment"} }, config, qrCodeSuccessCallback);
-                showNotifyMessage("Switch camera success");
+                showNotifyMessage("Switch to " + listCamera[cameraIndex].label);
             }
         }
     }
