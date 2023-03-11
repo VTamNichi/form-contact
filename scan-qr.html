@@ -104,7 +104,7 @@
 
     Html5Qrcode.getCameras().then(devices => {
         if (devices && devices.length) {
-            var cameraId = devices[cameraIndex].id;
+            var cameraId = devices[1].id;
             listCamera = devices;
             if (devices.length > 1) {
                 ic_switch_camera.style.display = "block";
@@ -136,7 +136,7 @@
                 } else {
                     cameraIndex = 0;
                 }
-                showNotifyMessage(listCamera[cameraIndex]);
+                showNotifyMessage(cameraIndex + ": " + listCamera[cameraIndex]);
                 html5QrCode.start(listCamera[cameraIndex].id, config, qrCodeSuccessCallback);
             }
         }
