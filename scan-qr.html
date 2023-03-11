@@ -95,9 +95,13 @@
     const ic_switch_camera = document.getElementById("ic-switch-camera");
     const html5QrCode = new Html5Qrcode("reader");
     let cameraIndex = 0;
+    let isScanning = false;
+    let isSwitching = false;
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-        console.log("scanning");
-        scanQRCode(decodedText);
+        if (!isScanning) {
+            isScanning = true;
+            scanQRCode(decodedText);
+        }
     };
     const config = { fps: 30, qrbox: 300 };
 
@@ -125,19 +129,26 @@
     function showNotifyMessage(message) {
         notify_message.innerHTML = message;
         notify.style.display = "block";
-        setTimeout(function () { notify_message.innerHTML = ""; notify.style.display = "none"; }, 2000);
+        setTimeout(function () {
+            notify_message.innerHTML = ""; notify.style.display = "none";
+            isScanning = false;
+            isSwitching = false;
+        }, 2000);
     }
 
     async function switchCamera() {
-        if (listCamera && listCamera.length) {
-            if (listCamera.length > 1) {
-                cameraIndex++;
-                if (cameraIndex == listCamera.length) {
-                    cameraIndex = 0;
-                } 
-                await html5QrCode.stop();
-                html5QrCode.start(listCamera[cameraIndex].id, config, qrCodeSuccessCallback);
-                showNotifyMessage("Switch to " + listCamera[cameraIndex].label);
+        if (!isSwitching) {
+            isSwitching = true;
+            if (listCamera && listCamera.length) {
+                if (listCamera.length > 1) {
+                    cameraIndex++;
+                    if (cameraIndex == listCamera.length) {
+                        cameraIndex = 0;
+                    }
+                    await html5QrCode.stop();
+                    html5QrCode.start(listCamera[cameraIndex].id, config, qrCodeSuccessCallback);
+                    await showNotifyMessage("Switch to " + listCamera[cameraIndex].label);
+                }
             }
         }
     }
@@ -157,12 +168,13 @@
             var resultJson = await response.json();
             var result = resultJson["result"];
             if (result == null) {
-                showNotifyMessage("Invalid QR Code")
+                await showNotifyMessage("Invalid QR Code")
             } else {
-                showNotifyMessage(JSON.stringify(result));
+                // localStorage.setItem("NAME", result.dataExtension["name"]);
+                window.location.href = "index.html";
             }
         } catch (e) {
-            showNotifyMessage(e);
+            await showNotifyMessage(e);
         }
     }
 

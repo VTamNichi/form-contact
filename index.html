@@ -160,7 +160,8 @@
 				<div class="scan-qr">
 					<div class="fullname"><input class="input-field" type="text" id="fullname" name="fullname"
 							placeholder="Họ tên" required></div>
-					<div class="icon-scan"><a href="scan-qr.html"><img src="images/ic_scan_qr.svg" alt="Icon Scan QR" /></a></div>
+					<div class="icon-scan"><a href="scan-qr.html"><img src="images/ic_scan_qr.svg"
+								alt="Icon Scan QR" /></a></div>
 				</div>
 			</div>
 			<div class="field">
@@ -255,6 +256,11 @@
 </body>
 
 <script>
+	window.addEventListener('load', () => {
+		// document.getElementById("fullname").value = localStorage.getItem("NAME");
+		localStorage.clear();
+	});
+
 	const api_url = "https://patient-api.miohealth.vn/";
 	const selectProvince = document.getElementById("province");
 	const selectDistrict = document.getElementById("district");
