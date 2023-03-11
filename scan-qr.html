@@ -136,6 +136,7 @@
                 } else {
                     cameraIndex = 0;
                 }
+                showNotifyMessage(listCamera[cameraIndex]);
                 html5QrCode.start(listCamera[cameraIndex].id, config, qrCodeSuccessCallback);
             }
         }
