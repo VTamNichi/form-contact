@@ -48,7 +48,7 @@
             bottom: 80px;
             width: 100%;
             text-align: center;
-            display: none;
+            /* display: none; */
         }
 
         .ic-switch-camera img {
@@ -78,7 +78,7 @@
 <body>
     <div class="container">
         <div class="reader" id="reader"></div>
-        <div class="ic-switch-camera" id="ic-switch-camera">
+        <div class="ic-switch-camera" id="ic-switch-camera" onclick="switchCamera()">
             <img src="images/ic_switch_camera.svg" alt="Icon Switch Camera" />
         </div>
         <div class="notify" id="notify">
@@ -94,15 +94,18 @@
     const notify_message = document.getElementById("notify-message");
     const ic_switch_camera = document.getElementById("ic-switch-camera");
     const html5QrCode = new Html5Qrcode("reader");
+    let cameraIndex = 0;
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         scanQRCode(decodedText);
     };
-    const config = { fps: 10, qrbox: 300 };
+    const config = { fps: 30, qrbox: 300 };
+
+    var listCamera;
 
     Html5Qrcode.getCameras().then(devices => {
         if (devices && devices.length) {
-            var cameraId = devices[0].id;
-            console.log("aaaaaaa: " + devices.length);
+            var cameraId = devices[cameraIndex].id;
+            listCamera = devices;
             if (devices.length > 1) {
                 ic_switch_camera.style.display = "block";
             } else {
@@ -125,6 +128,19 @@
         setTimeout(function () { notify_message.innerHTML = ""; notify.style.display = "none"; }, 2000);
     }
 
+    function switchCamera() {
+        if (listCamera && listCamera.length) {
+            if (listCamera.length > 1) {
+                if (cameraIndex == 0) {
+                    cameraIndex = 1;
+                } else {
+                    cameraIndex = 0;
+                }
+                html5QrCode.start(listCamera[cameraIndex].id, config, qrCodeSuccessCallback);
+            }
+        }
+    }
+
     async function scanQRCode(data) {
         var body = { "data": data };
         try {
@@ -142,10 +158,10 @@
             if (result == null) {
                 showNotifyMessage("Invalid QR Code")
             } else {
-                console.log("result: " + JSON.stringify(result));
+                showNotifyMessage(JSON.stringify(result));
             }
         } catch (e) {
-            console.log(e);
+            showNotifyMessage(e);
         }
     }
 
