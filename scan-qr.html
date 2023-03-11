@@ -120,7 +120,6 @@
     }).catch(err => {
         showNotifyMessage(err);
     });
-    html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
 
     function showNotifyMessage(message) {
         notify_message.innerHTML = message;
