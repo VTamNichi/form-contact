@@ -43,19 +43,6 @@
             background-color: #EB5757 !important;
         }
 
-        .ic-switch-camera {
-            position: absolute;
-            bottom: 80px;
-            width: 100%;
-            text-align: center;
-            display: none;
-        }
-
-        .ic-switch-camera img {
-            width: 40px;
-            height: 40px;
-        }
-
         .notify {
             position: absolute;
             bottom: 50px;
@@ -78,9 +65,6 @@
 <body>
     <div class="container">
         <div class="reader" id="reader"></div>
-        <div class="ic-switch-camera" id="ic-switch-camera" onclick="switchCamera()">
-            <img src="images/ic_switch_camera.svg" alt="Icon Switch Camera" />
-        </div>
         <div class="notify" id="notify">
             <div class="notify-message" id="notify-message"></div>
         </div>
@@ -92,11 +76,8 @@
 <script>
     const notify = document.getElementById("notify");
     const notify_message = document.getElementById("notify-message");
-    const ic_switch_camera = document.getElementById("ic-switch-camera");
     const html5QrCode = new Html5Qrcode("reader");
-    let cameraIndex = 0;
     let isScanning = false;
-    let isSwitching = false;
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         if (!isScanning) {
             isScanning = true;
@@ -105,16 +86,11 @@
     };
     const config = { fps: 30, qrbox: 300 };
 
-    var listCamera;
-
     Html5Qrcode.getCameras().then(devices => {
         if (devices && devices.length) {
-            var cameraId = devices[cameraIndex].id;
-            listCamera = devices;
+            var cameraId = devices[0].id;
             if (devices.length > 1) {
-                ic_switch_camera.style.display = "block";
-            } else {
-                ic_switch_camera.style.display = "none";
+                cameraId = devices[1].id;
             }
             if (cameraId != "") {
                 html5QrCode.start(cameraId, config, qrCodeSuccessCallback);
@@ -132,25 +108,7 @@
         setTimeout(function () {
             notify_message.innerHTML = ""; notify.style.display = "none";
             isScanning = false;
-            isSwitching = false;
         }, 2000);
-    }
-
-    async function switchCamera() {
-        if (!isSwitching) {
-            isSwitching = true;
-            if (listCamera && listCamera.length) {
-                if (listCamera.length > 1) {
-                    cameraIndex++;
-                    if (cameraIndex == listCamera.length) {
-                        cameraIndex = 0;
-                    }
-                    await html5QrCode.stop();
-                    html5QrCode.start(listCamera[cameraIndex].id, config, qrCodeSuccessCallback);
-                    await showNotifyMessage("Switch to " + listCamera[cameraIndex].label);
-                }
-            }
-        }
     }
 
     async function scanQRCode(data) {
@@ -170,7 +128,7 @@
             if (result == null) {
                 await showNotifyMessage("Invalid QR Code")
             } else {
-                // localStorage.setItem("NAME", result.dataExtension["name"]);
+                localStorage.setItem("NAME", result.dataExtension["name"]);
                 window.location.href = "index.html";
             }
         } catch (e) {
