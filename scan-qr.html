@@ -128,7 +128,7 @@
             if (result == null) {
                 await showNotifyMessage("Invalid QR Code")
             } else {
-                localStorage.setItem("NAME", result.dataExtension["name"]);
+                // localStorage.setItem("NAME", result.dataExtension["name"]);
                 window.location.href = "index.html";
             }
         } catch (e) {
