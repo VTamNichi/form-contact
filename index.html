@@ -150,14 +150,6 @@
 			margin-right: 12px;
 		}
 
-		.icon-clear {
-			display: none;
-		}
-
-		.icon-clear:hover {
-			cursor: pointer;
-		}
-
 		.notify {
 			position: absolute;
 			bottom: 50px;
@@ -187,8 +179,6 @@
 							placeholder="Họ tên" required autofocus></div>
 					<div class="icon-scan" id="icon-scan"><a href="scan-qr.html"><img src="images/ic_scan_qr.svg"
 								alt="Icon Scan QR" /></a></div>
-					<div class="icon-clear" id="icon-clear" onclick="clearForm()"><img src="images/ic_clear.svg"
-							alt="Icon Clear" /></div>
 				</div>
 			</div>
 			<div class="field">
@@ -308,14 +298,6 @@
 		setMaxDate();
 		fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
 
-		var isScanSuccess = localStorage.getItem("SUCCESS");
-		if (isScanSuccess != null) {
-			icon_scan.style.display = "none";
-			icon_clear.style.display = "block";
-		} else {
-			icon_scan.style.display = "block";
-			icon_clear.style.display = "none";
-		}
 		localStorage.clear();
 	});
 
@@ -367,14 +349,6 @@
 		} catch (e) {
 			erroridcard.innerHTML = "CMND/CCCD không hợp lệ";
 		}
-	}
-
-	function clearForm() {
-		resetSelectBox(selectWard);
-		resetSelectBox(selectDistrict);
-		form.reset();
-		icon_scan.style.display = "block";
-		icon_clear.style.display = "none";
 	}
 
 	function setMaxDate() {
