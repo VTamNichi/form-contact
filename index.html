@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html lang="en">
 
 <head>
@@ -185,6 +185,23 @@
 			object-fit: cover;
 		}
 
+		.container-scan .notify-scan {
+			position: absolute;
+			bottom: 50px;
+			width: 100%;
+			text-align: center;
+			display: none;
+		}
+
+		.container-scan .notify-message-scan {
+			background-color: #EB5757;
+			color: #fff;
+			width: max-content;
+			margin: 0 auto;
+			padding: 12px 16px;
+			border-radius: 100px;
+		}
+
 		.container-scan #qr-shaded-region div {
 			background-color: #EB5757 !important;
 		}
@@ -224,7 +241,9 @@
 						<div class="field-icon">
 							<input class="input-field" type="date" id="birthdate" name="birthdate" min="1900-01-01"
 								maxlength="10" onclick="this.showPicker();" required>
-							<img class="img-calender-gender" onclick="document.getElementById('birthdate').showPicker();" src="images/ic_calender.svg" alt="Icon Calender" />
+							<img class="img-calender-gender"
+								onclick="document.getElementById('birthdate').showPicker();"
+								src="images/ic_calender.svg" alt="Icon Calender" />
 						</div>
 					</div>
 					<div class="gender">
@@ -310,8 +329,8 @@
 	</div>
 	<div class="container-scan" id="container-scan">
 		<div class="reader" id="reader"></div>
-		<div class="notify" id="notify">
-			<div class="notify-message" id="notify-message"></div>
+		<div class="notify-scan" id="notify-scan">
+			<div class="notify-message-scan" id="notify-message-scan"></div>
 		</div>
 		<div class="icon-back" onclick="onClickBack()"><img src="images/ic_back.svg" alt="Icon Back" /></div>
 	</div>
@@ -338,6 +357,8 @@
 
 	const notify = document.getElementById("notify");
 	const notify_message = document.getElementById("notify-message");
+	const notify_scan = document.getElementById("notify-scan");
+	const notify_message_scan = document.getElementById("notify-message-scan");
 
 	window.addEventListener('load', () => {
 		checkSession();
@@ -423,15 +444,6 @@
 		document.getElementById("birthdate").setAttribute("max", today);
 	}
 
-	function showNotifyMessage(message) {
-		notify_message.innerHTML = message;
-		notify.style.display = "block";
-		setTimeout(function () {
-			notify_message.innerHTML = ""; notify.style.display = "none";
-			isScanning = false;
-		}, 2000);
-	}
-
 	function onClickScanQR() {
 		container.style.display = "none";
 		container_scan.style.display = "block";
@@ -455,6 +467,20 @@
 	function onClickBack() {
 		container.style.display = "block";
 		container_scan.style.display = "none";
+	}
+
+	function showNotifyMessage(message) {
+		notify_message.innerHTML = message;
+		notify.style.display = "block";
+		notify_message_scan.innerHTML = message;
+		notify_scan.style.display = "block";
+		setTimeout(function () {
+			notify_message.innerHTML = "";
+			notify.style.display = "none";
+			notify_message_scan.innerHTML = "";
+			notify_scan.style.display = "none";
+			isScanning = false;
+		}, 2000);
 	}
 
 	async function scanQRCode(data) {
