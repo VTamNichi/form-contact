@@ -513,7 +513,12 @@
 
 	async function fetchAPI(url, select) {
 		try {
-			const response = await fetch(url);
+			const response = await fetch(url, {
+				method: "GET",
+				headers: {
+					"accept": "application/json",
+				},
+			});
 			var datalist = await response.json();
 			var data = datalist["result"];
 			for (key in data) {
