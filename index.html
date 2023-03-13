@@ -303,6 +303,11 @@
 	const notify_message = document.getElementById("notify-message");
 
 	window.addEventListener('load', () => {
+
+		checkSession();
+		setMaxDate();
+		fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
+
 		var isScanSuccess = localStorage.getItem("SUCCESS");
 		if (isScanSuccess != null) {
 			icon_scan.style.display = "none";
@@ -441,23 +446,21 @@
 		return c_value;
 	}
 
-	checkSession();
-
 	function checkSession() {
 		var c = getCookie("visited");
-		if (c === "yes") {
-			alert("Welcome back!");
-		} else {
-			alert("Welcome new visitor!");
-			setCookie("visited", "yes", 365);
+		if (c === "no") {
+			return;
 		}
-		
-	}
-	// // createCookie("file:///E:/workspace/WebBasic/form_contact/index.html", "", -1);
-	// readCookie("file:///E:/workspace/WebBasic/form_contact/index.html");
+		if (c === "yes") {
+			showNotifyMessage("Quét mã QR để điền thông tin 2");
+			setCookie("visited", "no", null);
+		} else {
+			showNotifyMessage("Quét mã QR để điền thông tin 1");
+			setCookie("visited", "yes", null);
+		}
 
-	// setMaxDate();
-	// fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
+	}
+
 
 </script>
 
