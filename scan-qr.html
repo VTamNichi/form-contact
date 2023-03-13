@@ -93,23 +93,23 @@
     };
     const config = { fps: 30, qrbox: 300 };
 
-    // Html5Qrcode.getCameras().then(devices => {
-    //     if (devices && devices.length) {
-    //         var cameraId = devices[0].id;
-    //         if (devices.length > 1) {
-    //             cameraId = devices[1].id;
-    //         }
-    //         if (cameraId != "") {
-    //             html5QrCode.start(cameraId, config, qrCodeSuccessCallback);
-    //         } else {
-    //             showNotifyMessage("No camera found");
-    //         }
-    //     }
-    // }).catch(err => {
-    //     showNotifyMessage(err);
-    // });
+    Html5Qrcode.getCameras().then(devices => {
+        if (devices && devices.length) {
+            var cameraId = devices[0].id;
+            if (devices.length > 1) {
+                cameraId = devices[1].id;
+            }
+            if (cameraId != "") {
+                html5QrCode.start(cameraId, config, qrCodeSuccessCallback);
+            } else {
+                showNotifyMessage("No camera found");
+            }
+        }
+    }).catch(err => {
+        showNotifyMessage(err);
+    });
 
-    html5QrCode.start({facingMode: "user"}, config, qrCodeSuccessCallback);
+    // html5QrCode.start({facingMode: "user"}, config, qrCodeSuccessCallback);
 
     function showNotifyMessage(message) {
         notify_message.innerHTML = message;
