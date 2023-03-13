@@ -102,7 +102,7 @@
             if (cameraId != "") {
                 html5QrCode.start(cameraId, config, qrCodeSuccessCallback);
             } else {
-                showNotifyMessage("No camera found");
+                showNotifyMessage("Không tìn thấy camera");
             }
         }
     }).catch(err => {
@@ -135,7 +135,7 @@
             var resultJson = await response.json();
             var result = resultJson["result"];
             if (result == null) {
-                await showNotifyMessage("Invalid QR Code")
+                await showNotifyMessage("Mã QR không hợp lệ")
             } else {
                 localStorage.setItem("SUCCESS", "success");
                 window.location.href = "index.html";
