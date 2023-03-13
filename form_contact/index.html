@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Infomation</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			height: 100%;
+			font-family: "Manrope", sans-serif;
+			margin: 0;
+			background-color: #fff;
+			font-size: 14px;
+		}
+
+		select {
+			border: none;
+			text-indent: 1px;
+			text-overflow: '';
+			appearance: none;
+		}
+
+		select:focus {
+			border: none;
+			outline: none;
+		}
+
+		input {
+			outline: none;
+			border: none;
+		}
+
+		input[type="date"] {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+		}
+
+		input[type="date"]::-webkit-inner-spin-button,
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			display: none;
+			-webkit-appearance: none;
+		}
+
+		.container {
+			padding: 16px;
+		}
+
+		.form-input {
+			margin: 0 auto;
+			padding: 5px;
+		}
+
+		.input-field {
+			font-size: 15px;
+			line-height: 1.5;
+			color: #4F4F4F;
+			background: #F3F4F5;
+			height: 50px;
+			border-radius: 90px;
+			padding: 12px 22px;
+			width: 100%;
+		}
+
+		.submit-field {
+			font-size: 15px;
+			line-height: 1.5;
+			color: #fff;
+			background: #EB5757;
+			height: 50px;
+			border-radius: 90px;
+			padding: 12px 22px;
+			width: 100%;
+		}
+
+		::placeholder {
+			color: #BDBDBD;
+			opacity: 1;
+		}
+
+		label {
+			display: block;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 22px;
+			color: #333333;
+			margin-bottom: 8px;
+		}
+
+		.field {
+			margin-bottom: 24px;
+		}
+
+		.field-icon {
+			position: relative;
+		}
+
+		.img-calender-gender {
+			position: absolute;
+			right: 22px;
+			top: 18px;
+		}
+
+		.icon {
+			position: absolute;
+			right: 22px;
+			top: 22px;
+		}
+
+		.dob-gender {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.dob,
+		.gender {
+			width: 49%;
+		}
+
+		.error {
+			padding-left: 22px;
+			color: #EB5757;
+			font-size: 14px;
+		}
+
+		.scan-qr {
+			display: flex;
+			width: 100%;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.fullname {
+			width: 100%;
+			margin-right: 12px;
+		}
+
+		.notify {
+			position: absolute;
+			bottom: 50px;
+			width: 100%;
+			text-align: center;
+			display: none;
+		}
+
+		.notify-message {
+			background-color: #EB5757;
+			color: #fff;
+			width: max-content;
+			margin: 0 auto;
+			padding: 12px 16px;
+			border-radius: 100px;
+		}
+
+		.icon-scan:hover {
+			cursor: pointer;
+		}
+
+		.container-scan {
+			width: 100%;
+			height: 100%;
+			position: relative;
+			display: none;
+		}
+
+		.container-scan .reader {
+			margin: 0 auto;
+			width: 100%;
+			height: 100%;
+		}
+
+		.container-scan video {
+			position: absolute;
+			width: 100% !important;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.container-scan #qr-shaded-region div {
+			background-color: #EB5757 !important;
+		}
+
+		.container-scan .icon-back {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+		}
+
+		.container-scan .icon-back:hover {
+			cursor: pointer;
+		}
+
+		.hide {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container" id="container">
+		<form class="form-input" id="form-input">
+			<div class="field">
+				<label>Họ tên</label>
+				<div class="scan-qr">
+					<div class="fullname"><input class="input-field" type="text" id="fullname" name="fullname"
+							placeholder="Họ tên" required autofocus></div>
+					<div class="icon-scan" id="icon-scan" onclick="onClickScanQR()"><img src="images/ic_scan_qr.svg"
+							alt="Icon Scan QR" /></div>
+				</div>
+			</div>
+			<div class="field">
+				<div class="dob-gender">
+					<div class="dob">
+						<label>Ngày sinh</label>
+						<div class="field-icon">
+							<input class="input-field" type="date" id="birthdate" name="birthdate" min="1900-01-01"
+								maxlength="10" onclick="this.showPicker();" required>
+							<img class="img-calender-gender" onclick="document.getElementById('birthdate').showPicker();" src="images/ic_calender.svg" alt="Icon Calender" />
+						</div>
+					</div>
+					<div class="gender">
+						<label>Giới tính</label>
+						<div class="field-icon">
+							<select class="input-field" id="gender" style="z-index: 9999;" required>
+								<option value="" disabled selected>Giới tính</option>
+								<option value="Male">Nam</option>
+								<option value="Female">Nữ</option>
+								<option value="Other">Khác</option>
+							</select>
+							<img class="img-calender-gender" src="images/ic_gender.svg" alt="Icon Gender" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Số điện thoại</label>
+				<input class="input-field" type="tel" id="phone" name="phone" placeholder="Số điện thoại"
+					oninput="onInputPhone(this.value)">
+				<label class="error" id="error-phone"></label>
+			</div>
+			<div class="field hide">
+				<label>Email</label>
+				<input class="input-field" type="email" id="email" name="email" placeholder="Email">
+			</div>
+			<div class="field hide">
+				<label>CMND/CCCD</label>
+				<input class="input-field" type="text" id="idCard" name="idCard" placeholder="CMND/CCCD"
+					oninput="onInputIdCard(this.value)">
+				<label class="error" id="error-idcard"></label>
+			</div>
+			<div class="field hide">
+				<label>BHYT</label>
+				<input class="input-field" type="text" id="bhyt" name="bhyt" placeholder="BHYT">
+			</div>
+			<div class="field hide">
+				<label>Người giám hộ</label>
+				<input class="input-field" type="text" id="guardian" name="guardian" placeholder="Người giám hộ">
+			</div>
+			<div class="field hide">
+				<label>Tỉnh thành</label>
+				<div class="field-icon">
+					<select class="input-field" id="province" onchange="onSelect(1)">
+						<option value="" disabled selected>Tỉnh thành</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+				<datalist id="cityname">
+					<option value="Boston">
+					<option value="Cambridge">
+				</datalist>
+			</div>
+			<div class="field hide">
+				<label>Quận/Huyện</label>
+				<div class="field-icon">
+					<select class="input-field" id="district" onchange="onSelect(2)">
+						<option value="" disabled selected>Quận/Huyện</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field hide">
+				<label>Xã/Phường</label>
+				<div class="field-icon">
+					<select class="input-field" id="ward">
+						<option value="" disabled selected>Xã/Phường</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field hide">
+				<label>Đường/Số nhà</label>
+				<input class="input-field" type="text" name="street" placeholder="Đường/Số nhà">
+			</div>
+			<div class="field">
+				<input class="submit-field" type="submit" name="complete" value="Hoàn thành">
+			</div>
+		</form>
+		<div class="notify" id="notify">
+			<div class="notify-message" id="notify-message"></div>
+		</div>
+	</div>
+	<div class="container-scan" id="container-scan">
+		<div class="reader" id="reader"></div>
+		<div class="notify" id="notify">
+			<div class="notify-message" id="notify-message"></div>
+		</div>
+		<div class="icon-back" onclick="onClickBack()"><img src="images/ic_back.svg" alt="Icon Back" /></div>
+	</div>
+</body>
+
+<script src="js/html5-qrcode.min.js"></script>
+
+<script>
+
+	const api_url = "https://patient-api.miohealth.vn/";
+	const container = document.getElementById("container");
+	const container_scan = document.getElementById("container-scan");
+	const selectProvince = document.getElementById("province");
+	const selectDistrict = document.getElementById("district");
+	const selectWard = document.getElementById("ward");
+	const phoneRegex = new RegExp("^(?:[+0]9)?[0-9]{9,15}$");
+	const idCardRegex9 = new RegExp("^(?:[+0]9)?[0-9]{9}$");
+	const idCardRegex11 = new RegExp("^(?:[+0]9)?[0-9]{11}$");
+	const errorphone = document.getElementById("error-phone");
+	const erroridcard = document.getElementById("error-idcard");
+	const icon_scan = document.getElementById("icon-scan");
+	const icon_clear = document.getElementById("icon-clear");
+	var form = document.getElementById("form-input");
+
+	const notify = document.getElementById("notify");
+	const notify_message = document.getElementById("notify-message");
+
+	window.addEventListener('load', () => {
+		checkSession();
+		setMaxDate();
+		fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
+	});
+
+	function handleForm(event) {
+		if (errorphone.innerHTML != "" || erroridcard.innerHTML != "") {
+			event.preventDefault();
+		}
+	}
+	form.addEventListener('submit', handleForm);
+
+	const html5QrCode = new Html5Qrcode("reader");
+	let isScanning = false;
+	const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+		if (!isScanning) {
+			isScanning = true;
+			scanQRCode(decodedText);
+		}
+	};
+	const config = { fps: 30, qrbox: 300 };
+
+	function onSelect(index) {
+		if (index == 1) {
+			resetSelectBox(selectWard);
+			resetSelectBox(selectDistrict);
+			fetchAPI(api_url + "District/GetAllLookup?provinceId=" + selectProvince.value, selectDistrict);
+		} else {
+			resetSelectBox(selectWard);
+			fetchAPI(api_url + "Ward/GetAllLookup?districtId=" + selectDistrict.value, selectWard);
+		}
+	}
+
+	function resetSelectBox(select) {
+		select.value = select.options[0].value;
+		for (var i = 1; i < select.length; i++) {
+			select.remove(i);
+			i--;
+		}
+	}
+
+	function onInputPhone(value) {
+		try {
+			if (value.match(phoneRegex) || value == "") {
+				errorphone.innerHTML = "";
+			} else {
+				errorphone.innerHTML = "Số điện thoại không hợp lệ";
+			}
+		} catch (e) {
+			errorphone.innerHTML = "Số điện thoại không hợp lệ";
+		}
+	}
+
+	function onInputIdCard(value) {
+		try {
+			if (value.match(idCardRegex9) || value.match(idCardRegex11) || value == "") {
+				erroridcard.innerHTML = "";
+			} else {
+				erroridcard.innerHTML = "CMND/CCCD không hợp lệ";
+			}
+		} catch (e) {
+			erroridcard.innerHTML = "CMND/CCCD không hợp lệ";
+		}
+	}
+
+	function setMaxDate() {
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+
+		today = yyyy + '-' + mm + '-' + dd;
+		document.getElementById("birthdate").setAttribute("max", today);
+	}
+
+	function showNotifyMessage(message) {
+		notify_message.innerHTML = message;
+		notify.style.display = "block";
+		setTimeout(function () {
+			notify_message.innerHTML = ""; notify.style.display = "none";
+			isScanning = false;
+		}, 2000);
+	}
+
+	function onClickScanQR() {
+		container.style.display = "none";
+		container_scan.style.display = "block";
+		Html5Qrcode.getCameras().then(devices => {
+			if (devices && devices.length) {
+				var cameraId = devices[0].id;
+				if (devices.length > 1) {
+					cameraId = devices[1].id;
+				}
+				if (cameraId != "") {
+					html5QrCode.start(cameraId, config, qrCodeSuccessCallback);
+				} else {
+					showNotifyMessage("Không tìm thấy camera");
+				}
+			}
+		}).catch(err => {
+			showNotifyMessage(err);
+		});
+	}
+
+	function onClickBack() {
+		container.style.display = "block";
+		container_scan.style.display = "none";
+	}
+
+	async function scanQRCode(data) {
+		var body = { "data": data };
+		try {
+			const response = await fetch(api_url + "QRCode/GetInfo",
+				{
+					method: "POST",
+					headers: {
+						"accept": "application/json",
+						"Content-Type": "application/json-patch+json",
+					},
+					body: JSON.stringify(body),
+				});
+			var resultJson = await response.json();
+			var result = resultJson["result"];
+			if (result == null) {
+				await showNotifyMessage("Mã QR không hợp lệ")
+			} else {
+				window.location.href = "index.html";
+			}
+		} catch (e) {
+			await showNotifyMessage(e);
+		}
+	}
+
+	async function fetchAPI(url, select) {
+		try {
+			const response = await fetch(url);
+			var datalist = await response.json();
+			var data = datalist["result"];
+			for (key in data) {
+				var option = document.createElement("option");
+				option.value = data[key].id;
+				option.text = data[key].name;
+				select.add(option);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
+	function setCookie(c_name, value, exdays) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+		document.cookie = c_name + "=" + c_value;
+	}
+
+	function getCookie(c_name) {
+		var c_value = document.cookie;
+		var c_start = c_value.indexOf(" " + c_name + "=");
+		if (c_start == -1) {
+			c_start = c_value.indexOf(c_name + "=");
+		}
+		if (c_start == -1) {
+			c_value = null;
+		} else {
+			c_start = c_value.indexOf("=", c_start) + 1;
+			var c_end = c_value.indexOf(";", c_start);
+			if (c_end == -1) {
+				c_end = c_value.length;
+			}
+			c_value = unescape(c_value.substring(c_start, c_end));
+		}
+		return c_value;
+	}
+
+	function checkSession() {
+		var c = getCookie("visited");
+		if (c === "no") {
+			return;
+		}
+		if (c === "yes") {
+			showNotifyMessage("Quét mã QR để điền thông tin");
+			setCookie("visited", "no", null);
+		} else {
+			showNotifyMessage("Quét mã QR để điền thông tin");
+			setCookie("visited", "yes", null);
+		}
+
+	}
+</script>
+
+</html>
