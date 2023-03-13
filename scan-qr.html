@@ -59,6 +59,12 @@
             padding: 12px 16px;
             border-radius: 100px;
         }
+
+        .icon-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
     </style>
 </head>
 
@@ -68,6 +74,7 @@
         <div class="notify" id="notify">
             <div class="notify-message" id="notify-message"></div>
         </div>
+        <div class="icon-back"><a href="index.html"><img src="images/ic_back.svg" alt="Icon Back" /></a></div>
     </div>
 </body>
 
@@ -86,21 +93,23 @@
     };
     const config = { fps: 30, qrbox: 300 };
 
-    Html5Qrcode.getCameras().then(devices => {
-        if (devices && devices.length) {
-            var cameraId = devices[0].id;
-            if (devices.length > 1) {
-                cameraId = devices[1].id;
-            }
-            if (cameraId != "") {
-                html5QrCode.start(cameraId, config, qrCodeSuccessCallback);
-            } else {
-                showNotifyMessage("No camera found");
-            }
-        }
-    }).catch(err => {
-        showNotifyMessage(err);
-    });
+    // Html5Qrcode.getCameras().then(devices => {
+    //     if (devices && devices.length) {
+    //         var cameraId = devices[0].id;
+    //         if (devices.length > 1) {
+    //             cameraId = devices[1].id;
+    //         }
+    //         if (cameraId != "") {
+    //             html5QrCode.start(cameraId, config, qrCodeSuccessCallback);
+    //         } else {
+    //             showNotifyMessage("No camera found");
+    //         }
+    //     }
+    // }).catch(err => {
+    //     showNotifyMessage(err);
+    // });
+
+    html5QrCode.start({facingMode: "user"}, config, qrCodeSuccessCallback);
 
     function showNotifyMessage(message) {
         notify_message.innerHTML = message;
@@ -128,7 +137,7 @@
             if (result == null) {
                 await showNotifyMessage("Invalid QR Code")
             } else {
-                // localStorage.setItem("NAME", result.dataExtension["name"]);
+                localStorage.setItem("SUCCESS", "success");
                 window.location.href = "index.html";
             }
         } catch (e) {
