@@ -467,6 +467,7 @@
 	function onClickBack() {
 		container.style.display = "block";
 		container_scan.style.display = "none";
+		html5QrCode.stop();
 	}
 
 	function showNotifyMessage(message) {
@@ -502,6 +503,7 @@
 			} else {
 				container.style.display = "block";
 				container_scan.style.display = "none";
+				html5QrCode.stop();
 			}
 		} catch (e) {
 			await showNotifyMessage(e);
