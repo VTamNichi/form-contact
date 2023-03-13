@@ -184,7 +184,7 @@
 				<label>Họ tên</label>
 				<div class="scan-qr">
 					<div class="fullname"><input class="input-field" type="text" id="fullname" name="fullname"
-							placeholder="Họ tên" required></div>
+							placeholder="Họ tên" required autofocus></div>
 					<div class="icon-scan" id="icon-scan"><a href="scan-qr.html"><img src="images/ic_scan_qr.svg"
 								alt="Icon Scan QR" /></a></div>
 					<div class="icon-clear" id="icon-clear" onclick="clearForm()"><img src="images/ic_clear.svg"
@@ -452,10 +452,10 @@
 			return;
 		}
 		if (c === "yes") {
-			showNotifyMessage("Quét mã QR để điền thông tin 2");
+			showNotifyMessage("Quét mã QR để điền thông tin");
 			setCookie("visited", "no", null);
 		} else {
-			showNotifyMessage("Quét mã QR để điền thông tin 1");
+			showNotifyMessage("Quét mã QR để điền thông tin");
 			setCookie("visited", "yes", null);
 		}
 
