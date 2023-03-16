@@ -125,16 +125,13 @@
 			top: 22px;
 		}
 
-		.dob-gender,
-		.major-doctor {
+		.dob-gender{
 			display: flex;
 			justify-content: space-between;
 		}
 
 		.dob,
-		.gender,
-		.major,
-		.doctor {
+		.gender {
 			width: 49%;
 		}
 
@@ -173,8 +170,44 @@
 			border-radius: 100px;
 		}
 
+		.icon-scan {
+			position: relative;
+		}
+
 		.icon-scan:hover {
 			cursor: pointer;
+		}
+
+		.icon-scan .popuptext {
+			visibility: hidden;
+			width: 160px;
+			background-color: #EB5757;
+			color: #fff;
+			text-align: center;
+			padding: 8px 0;
+			border-radius: 5px;
+			position: absolute;
+			z-index: 1;
+			top: -60px;
+			left: -55px;
+			margin-left: -80px;
+		}
+
+		.icon-scan .popuptext::after {
+			content: "";
+			position: absolute;
+			top: 93%;
+			left: 90%;
+			margin-left: -4px;
+			border-width: 10px;
+			border-style: solid;
+			border-color: #EB5757 transparent transparent transparent;
+		}
+
+		.icon-scan .show {
+			visibility: visible;
+			-webkit-animation: fadeIn 1s;
+			animation: fadeIn 1s;
 		}
 
 		.container-scan {
@@ -350,29 +383,25 @@
 				</div>
 			</div>
 			<div class="field">
-				<div class="major-doctor">
-					<div class="major">
-						<label class="label-text">Chuyên khoa</label>
-						<div class="field-icon">
-							<select class="input-field" id="major">
-								<option value="" disabled selected>Chuyên khoa</option>
-								<option value="major1">Chuyên khoa 1</option>
-								<option value="major2">Chuyên khoa 2</option>
-							</select>
-							<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
-						</div>
-					</div>
-					<div class="doctor">
-						<label class="label-text">Bác sĩ</label>
-						<div class="field-icon">
-							<select class="input-field" id="doctor">
-								<option value="" disabled selected>Bác sĩ</option>
-								<option value="doctor1">Bác sĩ 1</option>
-								<option value="doctor2">Bác sĩ 2</option>
-							</select>
-							<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
-						</div>
-					</div>
+				<label class="label-text">Chuyên khoa</label>
+				<div class="field-icon">
+					<select class="input-field" id="major">
+						<option value="" disabled selected>Chuyên khoa</option>
+						<option value="major1">Chuyên khoa 1</option>
+						<option value="major2">Chuyên khoa 2</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field">
+				<label class="label-text">Bác sĩ</label>
+				<div class="field-icon">
+					<select class="input-field" id="doctor">
+						<option value="" disabled selected>Bác sĩ</option>
+						<option value="doctor1">Bác sĩ 1</option>
+						<option value="doctor2">Bác sĩ 2</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
 				</div>
 			</div>
 			<div class="field">
@@ -416,7 +445,9 @@
 					<div class="fullname"><input class="input-field" type="text" id="fullname" name="fullname"
 							placeholder="Họ tên" required autofocus></div>
 					<div class="icon-scan" id="icon-scan" onclick="onClickScanQR()"><img src="images/ic_scan_qr.svg"
-							alt="Icon Scan QR" /></div>
+							alt="Icon Scan QR" />
+						<span class="popuptext" id="myPopup">Quét mã QR để điền thông tin</span>
+					</div>
 				</div>
 			</div>
 			<div class="field">
@@ -563,7 +594,6 @@
 
 	window.addEventListener('load', () => {
 		checkIsMobile();
-		checkSession();
 		setMaxDate();
 		fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
 	});
@@ -715,6 +745,7 @@
 
 		container_step1.style.display = "none";
 		container.style.display = "block";
+		checkSession();
 	}
 
 	function onClickTypeServiceOther() {
@@ -915,10 +946,18 @@
 			return;
 		}
 		if (c === "yes") {
-			showNotifyMessage("Quét mã QR để điền thông tin");
+			var popup = document.getElementById("myPopup");
+			popup.classList.toggle("show");
+			setTimeout(function () {
+				popup.classList.toggle("show");
+			}, 3000);
 			setCookie("visited", "no", null);
 		} else {
-			showNotifyMessage("Quét mã QR để điền thông tin");
+			var popup = document.getElementById("myPopup");
+			popup.classList.toggle("show");
+			setTimeout(function () {
+				popup.classList.toggle("show");
+			}, 3000);
 			setCookie("visited", "yes", null);
 		}
 	}
