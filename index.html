@@ -125,7 +125,7 @@
 			top: 22px;
 		}
 
-		.dob-gender{
+		.dob-gender {
 			display: flex;
 			justify-content: space-between;
 		}
@@ -419,6 +419,9 @@
 				<div class="field-icon">
 					<select class="input-field" id="tools">
 						<option value="" disabled selected>Công cụ khám</option>
+						<option value="tools1">Zoom</option>
+						<option value="tools2">Google Meet</option>
+						<option value="tools3">Khác</option>
 					</select>
 					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
 				</div>
@@ -589,7 +592,15 @@
 	const select_doctor = document.getElementById("doctor");
 	const datetime_check = document.getElementById("datetime-check");
 
-
+	const html5QrCode = new Html5Qrcode("reader");
+	let isScanning = false;
+	const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+		if (!isScanning) {
+			isScanning = true;
+			scanQRCode(decodedText);
+		}
+	};
+	const config = { fps: 60, qrbox: 300 };
 	var isMobile = false;
 
 	window.addEventListener('load', () => {
@@ -604,16 +615,6 @@
 		}
 	}
 	form.addEventListener('submit', handleForm);
-
-	const html5QrCode = new Html5Qrcode("reader");
-	let isScanning = false;
-	const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-		if (!isScanning) {
-			isScanning = true;
-			scanQRCode(decodedText);
-		}
-	};
-	const config = { fps: 60, qrbox: 300 };
 
 	function onSelect(index) {
 		if (index == 1) {
