@@ -63,7 +63,8 @@
 			display: none;
 		}
 
-		.form-input {
+		.form-input,
+		.form-input-step1 {
 			margin: 0 auto;
 			padding: 5px;
 		}
@@ -269,7 +270,8 @@
 		.hide-district,
 		.hide-ward,
 		.hide-street,
-		.hide-tools {
+		.hide-location2,
+		.hide-location-more2 {
 			display: none;
 		}
 
@@ -348,47 +350,45 @@
 
 <body>
 	<div class="container-step1" id="container-step1">
-		<div class="form-input" id="form-input">
-			<div class="field">
+		<form class="form-input-step1" id="form-input-step1">
+			<div class="field hide-location2" id="hide-location2">
 				<label class="label-text">Chọn địa điểm khám bệnh</label>
 				<div class="radio-button">
-					<input type="radio" id="clinic1" name="clinic-location" value="Phòng khám Phú Đức">
-					<label for="clinic1">Phòng khám Phú Đức</label>
+					<input type="radio" id="clinic1" name="clinic-location" value="" required>
+					<label for="clinic1"></label>
 				</div>
 				<div class="radio-button">
-					<input type="radio" id="clinic2" name="clinic-location" value="MiO Health">
-					<label for="clinic2">MiO Health</label>
-				</div>
-				<div class="radio-button">
-					<input type="radio" id="clinic3" name="clinic-location" value="Phòng khám Hoàn Mỹ">
-					<label for="clinic3">Phòng khám Hoàn Mỹ</label>
+					<input type="radio" id="clinic2" name="clinic-location" value="" required>
+					<label for="clinic2"></label>
 				</div>
 			</div>
 			<div class="field">
-				<label class="label-text">Chọn loại dịch vụ khám</label>
+				<label class="label-text">Chọn loại dịch vụ</label>
 				<div class="radio-button">
-					<input type="radio" id="typeService1" name="type-service" value="Khám ngoài giờ"
-						onclick="onClickTypeServiceOther()">
-					<label for="typeService1">Khám ngoài giờ</label>
+					<input type="radio" id="examination" name="type-service" value="examination" required>
+					<label for="examination">Khám</label>
 				</div>
 				<div class="radio-button">
-					<input type="radio" id="typeService2" name="type-service" value="Khám trong giờ"
-						onclick="onClickTypeServiceOther()">
-					<label for="typeService2">Khám trong giờ</label>
-				</div>
-				<div class="radio-button">
-					<input type="radio" id="typeService3" name="type-service" value="Khám online"
-						onclick="onClickTypeService3()">
-					<label for="typeService3">Khám online</label>
+					<input type="radio" id="advise" name="type-service" value="advise" required>
+					<label for="advise">Tư vấn</label>
 				</div>
 			</div>
-			<div class="field">
-				<label class="label-text">Chuyên khoa</label>
+			<div class="field hide-location-more2" id="hide-location-more2">
+				<label class="label-text">Chọn địa điểm khám bệnh</label>
 				<div class="field-icon">
-					<select class="input-field" id="major">
-						<option value="" disabled selected>Chuyên khoa</option>
-						<option value="major1">Chuyên khoa 1</option>
-						<option value="major2">Chuyên khoa 2</option>
+					<select class="input-field" id="location" required>
+						<option value="" disabled selected>Địa điểm khám bệnh</option>
+					</select>
+					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
+				</div>
+			</div>
+			<div class="field">
+				<label class="label-text">Gói khám</label>
+				<div class="field-icon">
+					<select class="input-field" id="service" required>
+						<option value="" disabled selected>Gói khám</option>
+						<option value="service1">Gói khám 1</option>
+						<option value="service2">Gói khám 2</option>
 					</select>
 					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
 				</div>
@@ -396,7 +396,7 @@
 			<div class="field">
 				<label class="label-text">Bác sĩ</label>
 				<div class="field-icon">
-					<select class="input-field" id="doctor">
+					<select class="input-field" id="doctor" required>
 						<option value="" disabled selected>Bác sĩ</option>
 						<option value="doctor1">Bác sĩ 1</option>
 						<option value="doctor2">Bác sĩ 2</option>
@@ -414,28 +414,15 @@
 						src="images/ic_calender.svg" alt="Icon Calender" />
 				</div>
 			</div>
-			<div class="field hide-tools" id="hide-tools">
-				<label class="label-text">Chọn công cụ khám</label>
-				<div class="field-icon">
-					<select class="input-field" id="tools">
-						<option value="" disabled selected>Công cụ khám</option>
-						<option value="tools1">Zoom</option>
-						<option value="tools2">Google Meet</option>
-						<option value="tools3">Khác</option>
-					</select>
-					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
-				</div>
-			</div>
 			<div class="field">
 				<label class="label-text">Vấn đề sức khỏe cần khám</label>
 				<textarea class="input-textarea-field" id="description" name="description" rows="4"
 					placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi dành cho bác sĩ và các vấn đề sức khỏe cần khám"></textarea>
 			</div>
 			<div class="field">
-				<input class="submit-field" type="button" name="next" value="Nhập thông tin bệnh nhân"
-					onclick="onClickNext()">
+				<input class="submit-field" type="submit" name="next" value="Nhập thông tin bệnh nhân">
 			</div>
-		</div>
+		</form>
 		<div class="notify-step1" id="notify-step1">
 			<div class="notify-message-step1" id="notify-message-step1"></div>
 		</div>
@@ -569,7 +556,8 @@
 	const erroridcard = document.getElementById("error-idcard");
 	const icon_scan = document.getElementById("icon-scan");
 	const icon_clear = document.getElementById("icon-clear");
-	var form = document.getElementById("form-input");
+	const form = document.getElementById("form-input");
+	const form_step1 = document.getElementById("form-input-step1");
 
 	const notify = document.getElementById("notify");
 	const notify_message = document.getElementById("notify-message");
@@ -584,16 +572,15 @@
 	const hideDistrict = document.getElementById("hide-district");
 	const hideWard = document.getElementById("hide-ward");
 	const hideStreet = document.getElementById("hide-street");
-	const hideTools = document.getElementById("hide-tools");
 
 	const clinic_location = document.getElementsByName("clinic-location");
 	const type_service = document.getElementsByName("type-service");
-	const select_major = document.getElementById("major");
+	const select_service = document.getElementById("service");
 	const select_doctor = document.getElementById("doctor");
 	const datetime_check = document.getElementById("datetime-check");
 
-	const html5QrCode = new Html5Qrcode("reader");
-	let isScanning = false;
+	var html5QrCode = null;
+	var isScanning = false;
 	const qrCodeSuccessCallback = (decodedText, decodedResult) => {
 		if (!isScanning) {
 			isScanning = true;
@@ -605,16 +592,23 @@
 
 	window.addEventListener('load', () => {
 		checkIsMobile();
+		getAllLocation();
 		setMaxDate();
 		fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
 	});
 
 	function handleForm(event) {
-		if (errorphone.innerHTML != "" || erroridcard.innerHTML != "") {
-			event.preventDefault();
-		}
+		event.preventDefault();
 	}
 	form.addEventListener('submit', handleForm);
+
+	function handleFormStep1(event) {
+		event.preventDefault();
+		container_step1.style.display = "none";
+		container.style.display = "block";
+		checkSession();
+	}
+	form_step1.addEventListener('submit', handleFormStep1);
 
 	function onSelect(index) {
 		if (index == 1) {
@@ -679,6 +673,7 @@
 
 	function onClickScanQR() {
 		isScanning = false;
+		html5QrCode = new Html5Qrcode("reader");
 		container.style.display = "none";
 		container_scan.style.display = "block";
 		Html5Qrcode.getCameras().then(devices => {
@@ -702,59 +697,6 @@
 		container.style.display = "block";
 		container_scan.style.display = "none";
 		html5QrCode.stop();
-	}
-
-	function onClickNext() {
-		var clinicName = "";
-		for (var i = 0, length = clinic_location.length; i < length; i++) {
-			if (clinic_location[i].checked) {
-				clinicName = clinic_location[i].value;
-				break;
-			}
-		}
-		if (clinicName == "") {
-			showNotifyMessage("Vui lòng chọn địa điểm khám bệnh");
-			return;
-		}
-
-		var typeService = "";
-		for (var i = 0, length = type_service.length; i < length; i++) {
-			if (type_service[i].checked) {
-				typeService = type_service[i].value;
-				break;
-			}
-		}
-		if (typeService == "") {
-			showNotifyMessage("Vui lòng chọn loại dịch vụ khám");
-			return;
-		}
-
-		if (select_major.value == "") {
-			showNotifyMessage("Vui lòng chọn chuyên khoa");
-			return;
-		}
-
-		if (select_doctor.value == "") {
-			showNotifyMessage("Vui lòng chọn bác sĩ");
-			return;
-		}
-
-		if (datetime_check.value == "") {
-			showNotifyMessage("Vui lòng chọn ngày giờ");
-			return;
-		}
-
-		container_step1.style.display = "none";
-		container.style.display = "block";
-		checkSession();
-	}
-
-	function onClickTypeServiceOther() {
-		hideTools.style.display = "none";
-	}
-
-	function onClickTypeService3() {
-		hideTools.style.display = "block";
 	}
 
 	function showNotifyMessage(message) {
@@ -854,7 +796,7 @@
 	}
 
 	async function getAddressQR(addresses) {
-		let address = addresses.split(",");
+		var address = addresses.split(",");
 		if (address != null && address != "") {
 			selectStreet.value = address[0].trim();
 			if (address.length > 3) {
@@ -912,6 +854,42 @@
 			}
 		} catch (e) {
 			showNotifyMessage(e);
+		}
+	}
+
+	async function getAllLocation() {
+		var dataList = [
+			{ "id": "1", "value": "1", "name": "Phòng khám Phú Đức" },
+			{ "id": "2", "value": "2", "name": "Mio Health" },
+		];
+		if (dataList.length > 2) {
+			document.getElementById("hide-location-more2").style.display = "block";
+			resetSelectBox(document.getElementById("location"));
+			for (key in dataList) {
+				var option = document.createElement("option");
+				option.value = dataList[key].id;
+				option.text = dataList[key].name;
+				document.getElementById("location").add(option);
+			}
+		} else {
+			if (dataList.length > 1) {
+				document.getElementById("hide-location2").style.display = "block";
+				var labels = document.getElementsByTagName('label');
+				for (var i = 0; i < labels.length; i++) {
+					if (labels[i].htmlFor != '' && labels[i].htmlFor == "clinic1") {
+						labels[i].innerHTML = dataList[0].name;
+						break;
+					}
+				}
+				for (var i = 0; i < labels.length; i++) {
+					if (labels[i].htmlFor != '' && labels[i].htmlFor == "clinic2") {
+						labels[i].innerHTML = dataList[1].name;
+						break;
+					}
+				}
+				document.getElementById("clinic1").value == dataList[0].value;
+				document.getElementById("clinic2").value == dataList[1].value;
+			}
 		}
 	}
 
