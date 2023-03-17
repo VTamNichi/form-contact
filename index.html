@@ -345,6 +345,10 @@
 		input[type="button"]:hover {
 			cursor: pointer;
 		}
+
+		#birthdate-text::placeholder {
+			color: #4F4F4F;
+		}
 	</style>
 </head>
 
@@ -442,11 +446,22 @@
 			</div>
 			<div class="field">
 				<div class="dob-gender">
+					<!-- <div class="dob">
+						<label class="label-text">Ngày sinh</label>
+						<div class="field-icon">
+							<input class="input-field" placeholder="dd/mm/yyyy" type="text" id="birthdate-text"
+								name="birthdate-text" maxlength="10" required
+								oninput="onInputBirthdateText(this.value)">
+							<img class="img-calender-gender"
+								onclick="document.getElementById('birthdate').showPicker();"
+								src="images/ic_calender.svg" alt="Icon Calender" />
+						</div>
+					</div> -->
 					<div class="dob">
 						<label class="label-text">Ngày sinh</label>
 						<div class="field-icon">
 							<input class="input-field" type="date" id="birthdate" name="birthdate" min="1900-01-01"
-								maxlength="10" onclick="this.showPicker();" onchange="onChangeBirthdate()" required>
+								maxlength="10" onchange="onChangeBirthdate()" required>
 							<img class="img-calender-gender"
 								onclick="document.getElementById('birthdate').showPicker();"
 								src="images/ic_calender.svg" alt="Icon Calender" />
@@ -541,6 +556,36 @@
 <script src="js/html5-qrcode.min.js"></script>
 
 <script>
+	var dayInput = "";
+	function onInputBirthdateText(value) {
+		const elem = document.getElementById("birthdate-text");
+		dayInput = value;
+		if (dayInput.length == 1) {
+			elem.value = dayInput + "d/mm/yyyy";
+			elem.selectionStart = dayInput.length;
+		} else if (dayInput.length == 2) {
+			elem.value = dayInput + "/mm/yyyy";
+			elem.selectionStart = 3;
+		} else {
+
+		}
+
+		// console.log("value: " + );
+
+		// if (elem.createTextRange) {
+		// 	var range = elem.createTextRange();
+		// 	range.move('character', caretPos);
+		// 	range.select();
+		// }
+		// else {
+		// 	if (elem.selectionStart) {
+		// 		elem.focus();
+		// 		elem.setSelectionRange(caretPos, caretPos);
+		// 	}
+		// 	else
+		// 		elem.focus();
+		// }
+	}
 	const api_url = "https://patient-api.miohealth.vn/";
 	const container_step1 = document.getElementById("container-step1");
 	const container = document.getElementById("container");
@@ -863,7 +908,12 @@
 			{ "id": "2", "value": "2", "name": "Mio Health" },
 		];
 		if (dataList.length > 2) {
+			document.getElementById("clinic1").required = false;
+			document.getElementById("clinic2").required = false;
+			document.getElementById("location").required = true;
 			document.getElementById("hide-location-more2").style.display = "block";
+			document.getElementById("hide-location2").style.display = "none";
+
 			resetSelectBox(document.getElementById("location"));
 			for (key in dataList) {
 				var option = document.createElement("option");
@@ -872,8 +922,13 @@
 				document.getElementById("location").add(option);
 			}
 		} else {
+			document.getElementById("location").required = false;
 			if (dataList.length > 1) {
+				document.getElementById("clinic1").required = true;
+				document.getElementById("clinic2").required = true;
 				document.getElementById("hide-location2").style.display = "block";
+				document.getElementById("hide-location-more2").style.display = "none";
+
 				var labels = document.getElementsByTagName('label');
 				for (var i = 0; i < labels.length; i++) {
 					if (labels[i].htmlFor != '' && labels[i].htmlFor == "clinic1") {
