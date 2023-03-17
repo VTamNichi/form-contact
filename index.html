@@ -412,8 +412,8 @@
 				<label class="label-text">Chọn ngày giờ khám</label>
 				<div class="field-icon">
 					<input class="input-field" type="datetime-local" id="datetime-check" name="datetime-check"
-						min="1900-01-01" maxlength="10" onclick="this.showPicker();" onchange="onChangeDatetimeCheck()"
-						required>
+						min="1900-01-01" maxlength="10" autoclose onclick="this.showPicker();"
+						onchange="onChangeDatetimeCheck()" required>
 					<img class="img-calender-gender" onclick="document.getElementById('datetime-check').showPicker();"
 						src="images/ic_calender.svg" alt="Icon Calender" />
 				</div>
@@ -446,17 +446,6 @@
 			</div>
 			<div class="field">
 				<div class="dob-gender">
-					<!-- <div class="dob">
-						<label class="label-text">Ngày sinh</label>
-						<div class="field-icon">
-							<input class="input-field" placeholder="dd/mm/yyyy" type="text" id="birthdate-text"
-								name="birthdate-text" maxlength="10" required
-								oninput="onInputBirthdateText(this.value)">
-							<img class="img-calender-gender"
-								onclick="document.getElementById('birthdate').showPicker();"
-								src="images/ic_calender.svg" alt="Icon Calender" />
-						</div>
-					</div> -->
 					<div class="dob">
 						<label class="label-text">Ngày sinh</label>
 						<div class="field-icon">
@@ -556,36 +545,6 @@
 <script src="js/html5-qrcode.min.js"></script>
 
 <script>
-	var dayInput = "";
-	function onInputBirthdateText(value) {
-		const elem = document.getElementById("birthdate-text");
-		dayInput = value;
-		if (dayInput.length == 1) {
-			elem.value = dayInput + "d/mm/yyyy";
-			elem.selectionStart = dayInput.length;
-		} else if (dayInput.length == 2) {
-			elem.value = dayInput + "/mm/yyyy";
-			elem.selectionStart = 3;
-		} else {
-
-		}
-
-		// console.log("value: " + );
-
-		// if (elem.createTextRange) {
-		// 	var range = elem.createTextRange();
-		// 	range.move('character', caretPos);
-		// 	range.select();
-		// }
-		// else {
-		// 	if (elem.selectionStart) {
-		// 		elem.focus();
-		// 		elem.setSelectionRange(caretPos, caretPos);
-		// 	}
-		// 	else
-		// 		elem.focus();
-		// }
-	}
 	const api_url = "https://patient-api.miohealth.vn/";
 	const container_step1 = document.getElementById("container-step1");
 	const container = document.getElementById("container");
@@ -644,6 +603,41 @@
 
 	function handleForm(event) {
 		event.preventDefault();
+
+		if (errorphone.innerHTML == "" && erroridcard.innerHTML == "") {
+			var address = selectStreet.value;
+			if (selectProvince.value != "") {
+				address += ", " + selectProvince.value;
+			}
+			if (selectDistrict.value != "") {
+				address += ", " + selectDistrict.value;
+			}
+			if (selectWard.value != "") {
+				address += ", " + selectWard.value;
+			}
+			var contact = {
+				"name": document.getElementById("fullname").value,
+				"phone": document.getElementById("phone").value,
+				"email": document.getElementById("email").value,
+				"birthdate": document.getElementById("birthdate").value,
+				"idCard": document.getElementById("idCard").value,
+				"address": address,
+				"street": selectStreet.value,
+				"guardian": document.getElementById("guardian").value,
+				"healthInsuranceCode": document.getElementById("health-insurance").value,
+				"genderCode": document.getElementById("gender").value,
+			};
+			if (selectProvince.value != "") {
+				contact["provinceId"] = selectProvince.value;
+			}
+			if (selectDistrict.value != "") {
+				contact["districtId"] = selectDistrict.value;
+			}
+			if (selectWard.value != "") {
+				contact["wardId"] = selectWard.value;
+			}
+			createContactAPI(contact);
+		}
 	}
 	form.addEventListener('submit', handleForm);
 
@@ -1014,6 +1008,24 @@
 	function onChangeDatetimeCheck() {
 		if (isMobile == true) {
 			document.getElementById("datetime-check").classList.remove("mobile");
+		}
+	}
+
+	async function createContactAPI(contact) {
+		try {
+			const response = await fetch(api_url + "Contact/Create",
+				{
+					method: "POST",
+					headers: {
+						"accept": "application/json",
+						"Content-Type": "application/json-patch+json",
+					},
+					body: JSON.stringify(contact),
+				});
+			var resultJson = await response.json();
+
+		} catch (e) {
+			await showNotifyMessage(e);
 		}
 	}
 </script>
