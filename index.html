@@ -376,12 +376,14 @@
 				<label class="label-text">Chọn địa điểm khám bệnh</label>
 				<label class="custom-radio" id="custome-radio-clinic1">
 					<span id="text-clinic1"></span>
-					<input type="radio" id="clinic1" name="clinic-location" value="" required>
+					<input type="radio" id="clinic1" name="clinic-location" value="" required
+						oninvalid="onInvalidCustom(1)">
 					<span class="checkmark"></span>
 				</label>
 				<label class="custom-radio" id="custome-radio-clinic2">
 					<span id="text-clinic2"></span>
-					<input type="radio" id="clinic2" name="clinic-location" value="" required>
+					<input type="radio" id="clinic2" name="clinic-location" value="" required
+						oninvalid="onInvalidCustom(1)">
 					<span class="checkmark"></span>
 				</label>
 			</div>
@@ -389,19 +391,23 @@
 				<label class="label-text">Chọn loại dịch vụ</label>
 				<label class="custom-radio">
 					Khám
-					<input type="radio" id="examination" name="type-service" value="examination" required>
+					<input type="radio" id="examination" name="type-service" value="examination" required
+						oninvalid="onInvalidCustom(2)">
 					<span class="checkmark"></span>
 				</label>
 				<label class="custom-radio">
 					Tư vấn
-					<input type="radio" id="advise" name="type-service" value="advise" required>
+					<input type="radio" id="advise" name="type-service" value="advise" required
+						oninvalid="onInvalidCustom(2)">
 					<span class="checkmark"></span>
 				</label>
 			</div>
 			<div class="field hide-location-more2" id="hide-location-more2">
 				<label class="label-text">Chọn địa điểm khám bệnh</label>
 				<div class="field-icon">
-					<select class="input-field" id="location" required>
+					<select class="input-field" id="location" required
+						oninvalid="this.setCustomValidity('Vui lòng chọn địa điểm khám bệnh')"
+						oninput="setCustomValidity('')">
 						<option value="" disabled selected>Địa điểm khám bệnh</option>
 					</select>
 					<img class="icon" src="images/ic_arrow_down.svg" alt="Icon Arrow Down" />
@@ -410,7 +416,8 @@
 			<div class="field">
 				<label class="label-text">Gói khám</label>
 				<div class="field-icon">
-					<select class="input-field" id="service" required>
+					<select class="input-field" id="service" required
+						oninvalid="this.setCustomValidity('Vui lòng chọn gói khám')" oninput="setCustomValidity('')">
 						<option value="" disabled selected>Gói khám</option>
 						<option value="service1">Gói khám 1</option>
 						<option value="service2">Gói khám 2</option>
@@ -421,7 +428,8 @@
 			<div class="field">
 				<label class="label-text">Bác sĩ</label>
 				<div class="field-icon">
-					<select class="input-field" id="doctor" required>
+					<select class="input-field" id="doctor" required
+						oninvalid="this.setCustomValidity('Vui lòng chọn bác sĩ')" oninput="setCustomValidity('')">
 						<option value="" disabled selected>Bác sĩ</option>
 						<option value="doctor1">Bác sĩ 1</option>
 						<option value="doctor2">Bác sĩ 2</option>
@@ -433,7 +441,9 @@
 				<label class="label-text">Chọn ngày giờ khám</label>
 				<div class="field-icon">
 					<input class="input-field" type="datetime-local" id="datetime-check" name="datetime-check"
-						min="1900-01-01" maxlength="10" onchange="onChangeDatetimeCheck(this.value)" required autocomplete="off">
+						min="1900-01-01" maxlength="10" onchange="onChangeDatetimeCheck(this.value)" required
+						autocomplete="off" oninvalid="this.setCustomValidity('Vui lòng chọn ngày giờ khám')"
+						oninput="setCustomValidity('')">
 					<img class="img-calender-gender" onclick="document.getElementById('datetime-check').showPicker();"
 						src="images/ic_calender.svg" alt="Icon Calender" />
 				</div>
@@ -457,7 +467,9 @@
 				<label class="label-text">Họ tên</label>
 				<div class="scan-qr">
 					<div class="fullname"><input class="input-field" type="text" id="fullname" name="fullname"
-							placeholder="Họ tên" required autofocus></div>
+							placeholder="Họ tên" required autofocus
+							oninvalid="this.setCustomValidity('Vui lòng nhập họ tên')" oninput="setCustomValidity('')">
+					</div>
 					<div class="icon-scan" id="icon-scan" onclick="onClickScanQR()"><img src="images/ic_scan_qr.svg"
 							alt="Icon Scan QR" />
 						<span class="popuptext" id="myPopup">Quét mã QR để điền thông tin</span>
@@ -470,7 +482,9 @@
 						<label class="label-text">Ngày sinh</label>
 						<div class="field-icon">
 							<input class="input-field" type="date" id="birthdate" name="birthdate" min="1900-01-01"
-								maxlength="10" onchange="onChangeBirthdate(this.value)" required  autocomplete="off">
+								maxlength="10" onchange="onChangeBirthdate(this.value)" required autocomplete="off"
+								oninvalid="this.setCustomValidity('Vui lòng nhập ngày sinh')"
+								oninput="setCustomValidity('')">
 							<img class="img-calender-gender"
 								onclick="document.getElementById('birthdate').showPicker();"
 								src="images/ic_calender.svg" alt="Icon Calender" />
@@ -479,7 +493,9 @@
 					<div class="gender">
 						<label class="label-text">Giới tính</label>
 						<div class="field-icon">
-							<select class="input-field" id="gender" style="z-index: 9999;" required>
+							<select class="input-field" id="gender" style="z-index: 9999;" required
+								oninvalid="this.setCustomValidity('Vui lòng chọn giới tính')"
+								oninput="setCustomValidity('')">
 								<option value="" disabled selected>Giới tính</option>
 								<option value="Male">Nam</option>
 								<option value="Female">Nữ</option>
@@ -615,7 +631,6 @@
 	var isMobile = false;
 
 	window.addEventListener('load', () => {
-		form.reset();
 		checkIsMobile();
 		getAllLocation();
 		setMaxDate();
@@ -657,6 +672,7 @@
 			if (selectWard.value != "") {
 				contact["wardId"] = selectWard.value;
 			}
+			console.log("done");
 			// createContactAPI(contact);
 		}
 	}
@@ -664,11 +680,42 @@
 
 	function handleFormStep1(event) {
 		event.preventDefault();
+
 		container_step1.style.display = "none";
 		container.style.display = "block";
 		checkSession();
 	}
 	form_step1.addEventListener('submit', handleFormStep1);
+
+	function onInvalidCustom(index) {
+		var elementRadio;
+		if (index == 1) {
+			elementRadio = clinic_location;
+		} else {
+			elementRadio = type_service;
+		}
+
+		var flag = true;
+		for (var i = 0, length = elementRadio.length; i < length; i++) {
+			if (elementRadio[i].checked) {
+				flag = false;
+				break;
+			}
+		}
+		if (flag) {
+			if (index == 1) {
+				document.getElementById("clinic1").setCustomValidity("Vui lòng chọn địa điểm khám bệnh");
+			} else if (index == 2) {
+				document.getElementById("examination").setCustomValidity("Vui lòng chọn loại dịch vụ");
+			}
+		} else {
+			if (index == 1) {
+				document.getElementById("clinic1").setCustomValidity("");
+			} else if (index == 2) {
+				document.getElementById("examination").setCustomValidity("");
+			}
+		}
+	}
 
 	function onSelect(index) {
 		if (index == 1) {
@@ -919,9 +966,18 @@
 
 	async function getAllLocation() {
 		var dataList = [
-			{ "id": "1", "value": "1", "name": "Phòng khám Phú Đức" },
-			{ "id": "2", "value": "2", "name": "Mio Health" },
+			{ "id": "1", "value": "pkpd", "name": "Phòng khám Phú Đức" },
+			{ "id": "2", "value": "miohealth", "name": "Mio Health" },
+			{ "id": "2", "value": "miohealth", "name": "Mio Health" },
 		];
+		if (dataList.length == 0 || dataList.length == 1) {
+			document.getElementById("clinic1").required = false;
+			document.getElementById("clinic2").required = false;
+			document.getElementById("location").required = false;
+			document.getElementById("hide-location2").style.display = "none";
+			document.getElementById("hide-location-more2").style.display = "none";
+			return;
+		}
 		if (dataList.length > 2) {
 			document.getElementById("clinic1").required = false;
 			document.getElementById("clinic2").required = false;
@@ -938,17 +994,15 @@
 			}
 		} else {
 			document.getElementById("location").required = false;
-			if (dataList.length > 1) {
-				document.getElementById("clinic1").required = true;
-				document.getElementById("clinic2").required = true;
-				document.getElementById("hide-location2").style.display = "block";
-				document.getElementById("hide-location-more2").style.display = "none";
-				document.getElementById('text-clinic1').innerHTML = dataList[0].name;
-				document.getElementById('text-clinic2').innerHTML = dataList[1].name;
+			document.getElementById("clinic1").required = true;
+			document.getElementById("clinic2").required = true;
+			document.getElementById("hide-location2").style.display = "block";
+			document.getElementById("hide-location-more2").style.display = "none";
+			document.getElementById('text-clinic1').innerHTML = dataList[0].name;
+			document.getElementById('text-clinic2').innerHTML = dataList[1].name;
 
-				document.getElementById("clinic1").value == dataList[0].value;
-				document.getElementById("clinic2").value == dataList[1].value;
-			}
+			document.getElementById("clinic1").value == dataList[0].value;
+			document.getElementById("clinic2").value == dataList[1].value;
 		}
 	}
 
