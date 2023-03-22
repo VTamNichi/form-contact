@@ -441,9 +441,8 @@
 				<label class="label-text">Chọn ngày giờ khám</label>
 				<div class="field-icon">
 					<input class="input-field" type="datetime-local" id="datetime-check" name="datetime-check"
-						min="1900-01-01" maxlength="10" onchange="onChangeDatetimeCheck(this.value)" required
-						autocomplete="off" oninvalid="this.setCustomValidity('Vui lòng chọn ngày giờ khám')"
-						oninput="setCustomValidity('')">
+						maxlength="10" onchange="onChangeDatetimeCheck(this.value)" required autocomplete="off"
+						oninvalid="onInvalidDateTimeCheck(this, this.value)" oninput="setCustomValidity('')">
 					<img class="img-calender-gender" onclick="document.getElementById('datetime-check').showPicker();"
 						src="images/ic_calender.svg" alt="Icon Calender" />
 				</div>
@@ -483,8 +482,7 @@
 						<div class="field-icon">
 							<input class="input-field" type="date" id="birthdate" name="birthdate" min="1900-01-01"
 								maxlength="10" onchange="onChangeBirthdate(this.value)" required autocomplete="off"
-								oninvalid="this.setCustomValidity('Vui lòng nhập ngày sinh')"
-								oninput="setCustomValidity('')">
+								oninvalid="onInvalidBirthdate(this, this.value)" oninput="setCustomValidity('')">
 							<img class="img-calender-gender"
 								onclick="document.getElementById('birthdate').showPicker();"
 								src="images/ic_calender.svg" alt="Icon Calender" />
@@ -509,7 +507,8 @@
 			<div class="field">
 				<label class="label-text">Số điện thoại</label>
 				<input class="input-field" type="tel" id="phone" name="phone" placeholder="Số điện thoại"
-					oninput="onInputPhone(this.value)">
+					oninput="onInputPhone(this.value)" required
+					oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại')">
 				<label class="error" id="error-phone"></label>
 			</div>
 			<div class="field">
@@ -518,7 +517,8 @@
 			</div>
 			<div class="field">
 				<label class="label-text">Người giám hộ</label>
-				<input class="input-field" type="text" id="guardian" name="guardian" placeholder="Người giám hộ">
+				<input class="input-field" type="text" id="guardian" name="guardian" placeholder="Người giám hộ"
+					oninvalid="this.setCustomValidity('Vui lòng nhập người giám hộ')" oninput="setCustomValidity('')">
 			</div>
 			<div class="field hide-id-card" id="hide-id-card">
 				<label class="label-text">CMND/CCCD</label>
@@ -633,6 +633,7 @@
 	window.addEventListener('load', () => {
 		checkIsMobile();
 		getAllLocation();
+
 		setMaxDate();
 		fetchAPI(api_url + "Province/GetAllLookup", selectProvince);
 	});
@@ -717,6 +718,29 @@
 		}
 	}
 
+	function onInvalidBirthdate(field, value) {
+		if (field.validationMessage.includes("invalid")) {
+			field.setCustomValidity('Vui lòng nhập ngày sinh hợp lệ');
+		} else if (field.validationMessage.includes("later")) {
+			field.setCustomValidity('Ngày sinh phải lớn hơn ' + value);
+		} else if (field.validationMessage.includes("earlier")) {
+			field.setCustomValidity('Ngày sinh phải nhỏ hơn hôm nay');
+		} else {
+			field.setCustomValidity('Vui lòng nhập ngày sinh');
+		} this.setCustomValidity('Vui lòng chọn ngày giờ khám')
+	}
+
+	function onInvalidDateTimeCheck(field, value) {
+		console.log(field.validationMessage);
+		if (field.validationMessage.includes("invalid")) {
+			field.setCustomValidity('Vui lòng nhập ngày giờ khám hợp lệ');
+		} else if (field.validationMessage.includes("later")) {
+			field.setCustomValidity('Ngày giờ khám phải lớn hơn ' + value);
+		} else {
+			field.setCustomValidity('Vui lòng chọn ngày giờ khám');
+		}
+	}
+
 	function onSelect(index) {
 		if (index == 1) {
 			resetSelectBox(selectWard);
@@ -746,6 +770,7 @@
 		} catch (e) {
 			errorphone.innerHTML = "Số điện thoại không hợp lệ";
 		}
+		document.getElementById("phone").setCustomValidity('');
 	}
 
 	function onInputIdCard(value) {
@@ -765,6 +790,8 @@
 		var dd = today.getDate();
 		var mm = today.getMonth() + 1; //January is 0!
 		var yyyy = today.getFullYear();
+		var hh = today.getHours();
+		var min = today.getMinutes();
 
 		if (dd < 10) {
 			dd = '0' + dd;
@@ -776,6 +803,9 @@
 
 		today = yyyy + '-' + mm + '-' + dd;
 		document.getElementById("birthdate").setAttribute("max", today);
+		minDay = today + "T" + hh + ":" + min + ":00";
+
+		document.getElementById("datetime-check").setAttribute("min", minDay);
 	}
 
 	function onClickScanQR() {
@@ -968,7 +998,6 @@
 		var dataList = [
 			{ "id": "1", "value": "pkpd", "name": "Phòng khám Phú Đức" },
 			{ "id": "2", "value": "miohealth", "name": "Mio Health" },
-			{ "id": "2", "value": "miohealth", "name": "Mio Health" },
 		];
 		if (dataList.length == 0 || dataList.length == 1) {
 			document.getElementById("clinic1").required = false;
@@ -1064,6 +1093,14 @@
 	}
 
 	function onChangeBirthdate(value) {
+		var age = 0;
+		age = getAge(value);
+		if (age < 6) {
+			document.getElementById("guardian").required = true;
+		} else {
+			document.getElementById("guardian").required = false;
+			document.getElementById("guardian").setCustomValidity("");
+		}
 		if (isMobile == true) {
 			document.getElementById("birthdate").classList.remove("mobile");
 			if (value != "") {
@@ -1072,6 +1109,18 @@
 				document.getElementById("birthdate").classList.add("mobile");
 			}
 		}
+
+	}
+
+	function getAge(dateString) {
+		var today = new Date();
+		var birthDate = new Date(dateString);
+		var age = today.getFullYear() - birthDate.getFullYear();
+		var m = today.getMonth() - birthDate.getMonth();
+		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+			age--;
+		}
+		return age;
 	}
 
 	function onChangeDatetimeCheck(value) {
