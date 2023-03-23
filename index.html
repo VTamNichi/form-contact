@@ -518,7 +518,7 @@
 			<div class="field">
 				<label class="label-text">Người giám hộ</label>
 				<input class="input-field" type="text" id="guardian" name="guardian" placeholder="Người giám hộ"
-					oninvalid="this.setCustomValidity('Vui lòng nhập người giám hộ')" oninput="setCustomValidity('')">
+					oninvalid="this.setCustomValidity('Trẻ em dưới 6 tuổi cần phải có người giám hộ')" oninput="setCustomValidity('')">
 			</div>
 			<div class="field hide-id-card" id="hide-id-card">
 				<label class="label-text">CMND/CCCD</label>
@@ -731,7 +731,6 @@
 	}
 
 	function onInvalidDateTimeCheck(field, value) {
-		console.log(field.validationMessage);
 		if (field.validationMessage.includes("invalid")) {
 			field.setCustomValidity('Vui lòng nhập ngày giờ khám hợp lệ');
 		} else if (field.validationMessage.includes("later")) {
